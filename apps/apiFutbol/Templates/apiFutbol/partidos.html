@@ -1,0 +1,674 @@
+{%extends 'layout/base.html'%}
+{%load static%}
+{%block title%}Partidos{%endblock%}
+{% block content %}
+<h1>YourBet</h1>
+<p class="fs-3 mb-4">Un mundo de apuestas donde la emoción no tiene límites... ¡y el ganador eres tú!</p>
+<p class="fs-3 mb-1">¡Selecciona una de tus ligas favoritas!</p>
+
+<div class="content-wrapper">
+
+    <div class="league-container mb-4">
+        <a href="#laLiga">
+            <div class="league">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/LaLiga_logo_2023.svg/1200px-LaLiga_logo_2023.svg.png"
+                    alt="LaLiga">
+                <p>LaLiga</p>
+            </div>
+        </a>
+
+        <a href="#bundesliga">
+            <div class="league">
+                <img src="https://upload.wikimedia.org/wikipedia/en/d/df/Bundesliga_logo_%282017%29.svg"
+                    alt="bundesliga">
+                <p>Bundesliga</p>
+            </div>
+        </a>
+
+        <a href="#premierLeague">
+            <div class="league">
+                <img src="https://upload.wikimedia.org/wikipedia/en/f/f2/Premier_League_Logo.svg" alt="Premier League">
+                <p>Premier League</p>
+            </div>
+        </a>
+
+        <a href="#serieA">
+        <div class="league">
+            <img src="https://www.ceroacero.es/img/logos/competicoes/10_imgbank_sa_20250220170543.png" alt="Serie A">
+            <p>Serie A</p>
+        </div>
+        </a>
+
+        <a href="#ligue1">
+        <div class="league">
+            <img src="https://static.wikia.nocookie.net/universecwsports/images/1/12/Ligue1_Logo.png/revision/latest?cb=20201126145431&path-prefix=es"
+                alt="Ligue 1">
+            <p>Ligue 1</p>
+        </div>
+    </a>
+
+    <a href="#champions">
+        <div class="league">
+               <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Logo_UEFA_Champions_League.png"
+                   alt="Champions League">
+               <p>Championes League</p>
+           </div>
+       </a>
+
+    <a href="#mundo">
+     <div class="league">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/027/126/257/small_2x/world-map-on-globe-silhouette-for-icon-symbol-app-website-pictogram-logo-type-art-illustration-or-graphic-design-element-format-png.png"
+                alt="Mundo">
+            <p>Todo el mundo</p>
+        </div>
+    </a>
+    </div>
+
+    <hr>
+
+    {%if error%}
+    <p>{{error}}</p>
+    {%else%}
+
+    
+
+    <div class="row justify-content-center gap-3 mb-5">
+
+        <!--Laliga-->
+        <div  class="d-flex align-items-center justify-content-center mb-3">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/LaLiga_logo_2023.svg/1200px-LaLiga_logo_2023.svg.png"
+                alt="LaLiga Logo" class="me-2" style="width: 40px; height: 40px;">
+            <h2 class="mb-4" id="laLiga">LaLiga</h2>
+        </div>
+        {%for partido, oddLocal, oddVisitante in partidosOdd%}
+        {%if partido.league.id == 140%}
+        <!-- Card Partido -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+            <div class="match-card">
+                <!-- Cabecera con el tiempo -->
+                <div class="header">
+                    <span>{{partido.fixture.status.long}}</span>
+                    {%if partido.fixture.status.elapsed is None %}
+                    <span class="match-time">{{ partido.fixture.date }}</span>
+                    {%else%}
+                    <span class="match-time">{{partido.fixture.status.elapsed}}'</span>
+                    {% endif %}
+                </div>
+
+                <!-- Equipo 1 -->
+                <div class="team-row">
+                    <div class="team-info">
+                        <img src="{{partido.teams.home.logo}}" alt="West Ham" class="team-logo">
+                        <span class="team-name">{{partido.teams.home.name}}</span>
+                    </div>
+                    {%if partido.goals.home is None %}
+                    <span class="score"></span>
+                    {%else%}
+                    <span class="score">{{partido.goals.home}}</span>
+                    {% endif %}
+
+                    
+                    <button class="bet-button" type="button" data-bs-toggle="modal" data-bs-target="#modalDetalles"
+                        data-nombre-local="{{partido.teams.home.name}}"
+                        data-nombre-visitante="{{partido.teams.away.name}}"
+                        data-nombre-ganador="{{partido.teams.home.name}}" data-odd="{{oddLocal}}"
+                        data-id-partido="{{partido.fixture.id}}"> {{oddLocal}} </button>
+                        
+
+                </div>
+
+                <!-- Equipo 2 -->
+                <div class="team-row">
+                    <div class="team-info">
+                        <img src="{{partido.teams.away.logo}}" alt="Leicester" class="team-logo">
+                        <span class="team-name">{{partido.teams.away.name}}</span>
+                    </div>
+
+                    {%if partido.goals.away is None %}
+                    <span class="score"></span>
+                    {%else%}
+                    <span class="score">{{partido.goals.away}}</span>
+                    {% endif %}
+                  
+                    <button class="bet-button" type="button" data-bs-toggle="modal" data-bs-target="#modalDetalles"
+                        data-nombre-local="{{partido.teams.home.name}}"
+                        data-nombre-visitante="{{partido.teams.away.name}}"
+                        data-nombre-ganador="{{partido.teams.away.name}}" data-odd="{{oddVisitante}}"
+                        data-id-partido="{{partido.fixture.id}}">{{oddVisitante}}</button>
+                    
+                    </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+
+
+
+        <!--Bundesliga-->
+        <div class="d-flex align-items-center justify-content-center mb-3">
+            <img src="https://upload.wikimedia.org/wikipedia/en/d/df/Bundesliga_logo_%282017%29.svg"
+                alt="LaLiga Logo" class="me-2" style="width: 40px; height: 40px;">
+            <h2 class="mb-4" id="bundesliga">Bundesliga</h2>
+        </div>
+
+
+
+        {%for partido, oddLocal, oddVisitante in partidosOdd%}
+        {%if partido.league.id == 79%}
+        <!-- Card Partido -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+            <div class="match-card">
+                <!-- Cabecera con el tiempo -->
+                <div class="header">
+                    <span>{{partido.fixture.status.long}}</span>
+                    {%if partido.fixture.status.elapsed is None %}
+                    <span class="match-time">{{ partido.fixture.date }}</span>
+                    {%else%}
+                    <span class="match-time">{{partido.fixture.status.elapsed}}'</span>
+                    {% endif %}
+                </div>
+
+                <!-- Equipo 1 -->
+                <div class="team-row">
+                    <div class="team-info">
+                        <img src="{{partido.teams.home.logo}}" alt="West Ham" class="team-logo">
+                        <span class="team-name">{{partido.teams.home.name}}</span>
+                    </div>
+                    {%if partido.goals.home is None %}
+                    <span class="score"></span>
+                    {%else%}
+                    <span class="score">{{partido.goals.home}}</span>
+                    {% endif %}
+
+                    
+                    <button class="bet-button" type="button" data-bs-toggle="modal" data-bs-target="#modalDetalles"
+                        data-nombre-local="{{partido.teams.home.name}}"
+                        data-nombre-visitante="{{partido.teams.away.name}}"
+                        data-nombre-ganador="{{partido.teams.home.name}}" data-odd="{{oddLocal}}"
+                        data-id-partido="{{partido.fixture.id}}"> {{oddLocal}} </button>
+                        
+
+                </div>
+
+                <!-- Equipo 2 -->
+                <div class="team-row">
+                    <div class="team-info">
+                        <img src="{{partido.teams.away.logo}}" alt="Leicester" class="team-logo">
+                        <span class="team-name">{{partido.teams.away.name}}</span>
+                    </div>
+
+                    {%if partido.goals.away is None %}
+                    <span class="score"></span>
+                    {%else%}
+                    <span class="score">{{partido.goals.away}}</span>
+                    {% endif %}
+                  
+                    <button class="bet-button" type="button" data-bs-toggle="modal" data-bs-target="#modalDetalles"
+                        data-nombre-local="{{partido.teams.home.name}}"
+                        data-nombre-visitante="{{partido.teams.away.name}}"
+                        data-nombre-ganador="{{partido.teams.away.name}}" data-odd="{{oddVisitante}}"
+                        data-id-partido="{{partido.fixture.id}}">{{oddVisitante}}</button>
+                    
+                    </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+
+       <!--Premier League-->
+       <div class="d-flex align-items-center justify-content-center mb-3">
+        <img src="https://upload.wikimedia.org/wikipedia/en/f/f2/Premier_League_Logo.svg"
+            alt="LaLiga Logo" class="me-2" style="width: 40px; height: 40px;">
+        <h2 class="mb-4" id="premierLeague">Premier League</h2>
+    </div>
+
+
+
+    {%for partido, oddLocal, oddVisitante in partidosOdd%}
+    {%if partido.league.id == 39%}
+    <!-- Card Partido -->
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+        <div class="match-card">
+            <!-- Cabecera con el tiempo -->
+            <div class="header">
+                <span>{{partido.fixture.status.long}}</span>
+                {%if partido.fixture.status.elapsed is None %}
+                <span class="match-time">{{ partido.fixture.date }}</span>
+                {%else%}
+                <span class="match-time">{{partido.fixture.status.elapsed}}'</span>
+                {% endif %}
+            </div>
+
+            <!-- Equipo 1 -->
+            <div class="team-row">
+                <div class="team-info">
+                    <img src="{{partido.teams.home.logo}}" alt="West Ham" class="team-logo">
+                    <span class="team-name">{{partido.teams.home.name}}</span>
+                </div>
+                {%if partido.goals.home is None %}
+                <span class="score"></span>
+                {%else%}
+                <span class="score">{{partido.goals.home}}</span>
+                {% endif %}
+
+                
+                <button class="bet-button" type="button" data-bs-toggle="modal" data-bs-target="#modalDetalles"
+                    data-nombre-local="{{partido.teams.home.name}}"
+                    data-nombre-visitante="{{partido.teams.away.name}}"
+                    data-nombre-ganador="{{partido.teams.home.name}}" data-odd="{{oddLocal}}"
+                    data-id-partido="{{partido.fixture.id}}"> {{oddLocal}} </button>
+                    
+
+            </div>
+
+            <!-- Equipo 2 -->
+            <div class="team-row">
+                <div class="team-info">
+                    <img src="{{partido.teams.away.logo}}" alt="Leicester" class="team-logo">
+                    <span class="team-name">{{partido.teams.away.name}}</span>
+                </div>
+
+                {%if partido.goals.away is None %}
+                <span class="score"></span>
+                {%else%}
+                <span class="score">{{partido.goals.away}}</span>
+                {% endif %}
+              
+                <button class="bet-button" type="button" data-bs-toggle="modal" data-bs-target="#modalDetalles"
+                    data-nombre-local="{{partido.teams.home.name}}"
+                    data-nombre-visitante="{{partido.teams.away.name}}"
+                    data-nombre-ganador="{{partido.teams.away.name}}" data-odd="{{oddVisitante}}"
+                    data-id-partido="{{partido.fixture.id}}">{{oddVisitante}}</button>
+                
+                </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+
+    <!--SeriE A-->
+    <div class="d-flex align-items-center justify-content-center mb-3">
+        <img src="https://www.ceroacero.es/img/logos/competicoes/10_imgbank_sa_20250220170543.png"
+            alt="LaLiga Logo" class="me-2" style="width: 40px; height: 40px;">
+        <h2 class="mb-4" id="serieA">Serie A</h2>
+    </div>
+
+
+
+    {%for partido, oddLocal, oddVisitante in partidosOdd%}
+    {%if partido.league.id == 135%}
+    <!-- Card Partido -->
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+        <div class="match-card">
+            <!-- Cabecera con el tiempo -->
+            <div class="header">
+                <span>{{partido.fixture.status.long}}</span>
+                {%if partido.fixture.status.elapsed is None %}
+                <span class="match-time">{{ partido.fixture.date }}</span>
+                {%else%}
+                <span class="match-time">{{partido.fixture.status.elapsed}}'</span>
+                {% endif %}
+            </div>
+
+            <!-- Equipo 1 -->
+            <div class="team-row">
+                <div class="team-info">
+                    <img src="{{partido.teams.home.logo}}" alt="West Ham" class="team-logo">
+                    <span class="team-name">{{partido.teams.home.name}}</span>
+                </div>
+                {%if partido.goals.home is None %}
+                <span class="score"></span>
+                {%else%}
+                <span class="score">{{partido.goals.home}}</span>
+                {% endif %}
+
+                
+                <button class="bet-button" type="button" data-bs-toggle="modal" data-bs-target="#modalDetalles"
+                    data-nombre-local="{{partido.teams.home.name}}"
+                    data-nombre-visitante="{{partido.teams.away.name}}"
+                    data-nombre-ganador="{{partido.teams.home.name}}" data-odd="{{oddLocal}}"
+                    data-id-partido="{{partido.fixture.id}}"> {{oddLocal}} </button>
+                    
+
+            </div>
+
+            <!-- Equipo 2 -->
+            <div class="team-row">
+                <div class="team-info">
+                    <img src="{{partido.teams.away.logo}}" alt="Leicester" class="team-logo">
+                    <span class="team-name">{{partido.teams.away.name}}</span>
+                </div>
+
+                {%if partido.goals.away is None %}
+                <span class="score"></span>
+                {%else%}
+                <span class="score">{{partido.goals.away}}</span>
+                {% endif %}
+              
+                <button class="bet-button" type="button" data-bs-toggle="modal" data-bs-target="#modalDetalles"
+                    data-nombre-local="{{partido.teams.home.name}}"
+                    data-nombre-visitante="{{partido.teams.away.name}}"
+                    data-nombre-ganador="{{partido.teams.away.name}}" data-odd="{{oddVisitante}}"
+                    data-id-partido="{{partido.fixture.id}}">{{oddVisitante}}</button>
+                
+                </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+
+    <!--Ligue 1-->
+    <div class="d-flex align-items-center justify-content-center mb-3">
+        <img src="https://static.wikia.nocookie.net/universecwsports/images/1/12/Ligue1_Logo.png/revision/latest?cb=20201126145431&path-prefix=es"
+            alt="LaLiga Logo" class="me-2" style="width: 40px; height: 40px;">
+        <h2 class="mb-4" id="ligue1">Ligue 1</h2>
+    </div>
+
+
+
+    {%for partido, oddLocal, oddVisitante in partidosOdd%}
+    {%if partido.league.id == 61%}
+    <!-- Card Partido -->
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+        <div class="match-card">
+            <!-- Cabecera con el tiempo -->
+            <div class="header">
+                <span>{{partido.fixture.status.long}}</span>
+                {%if partido.fixture.status.elapsed is None %}
+                <span class="match-time">{{ partido.fixture.date }}</span>
+                {%else%}
+                <span class="match-time">{{partido.fixture.status.elapsed}}'</span>
+                {% endif %}
+            </div>
+
+            <!-- Equipo 1 -->
+            <div class="team-row">
+                <div class="team-info">
+                    <img src="{{partido.teams.home.logo}}" alt="West Ham" class="team-logo">
+                    <span class="team-name">{{partido.teams.home.name}}</span>
+                </div>
+                {%if partido.goals.home is None %}
+                <span class="score"></span>
+                {%else%}
+                <span class="score">{{partido.goals.home}}</span>
+                {% endif %}
+
+                
+                <button class="bet-button" type="button" data-bs-toggle="modal" data-bs-target="#modalDetalles"
+                    data-nombre-local="{{partido.teams.home.name}}"
+                    data-nombre-visitante="{{partido.teams.away.name}}"
+                    data-nombre-ganador="{{partido.teams.home.name}}" data-odd="{{oddLocal}}"
+                    data-id-partido="{{partido.fixture.id}}"> {{oddLocal}} </button>
+                    
+
+            </div>
+
+            <!-- Equipo 2 -->
+            <div class="team-row">
+                <div class="team-info">
+                    <img src="{{partido.teams.away.logo}}" alt="Leicester" class="team-logo">
+                    <span class="team-name">{{partido.teams.away.name}}</span>
+                </div>
+
+                {%if partido.goals.away is None %}
+                <span class="score"></span>
+                {%else%}
+                <span class="score">{{partido.goals.away}}</span>
+                {% endif %}
+              
+                <button class="bet-button" type="button" data-bs-toggle="modal" data-bs-target="#modalDetalles"
+                    data-nombre-local="{{partido.teams.home.name}}"
+                    data-nombre-visitante="{{partido.teams.away.name}}"
+                    data-nombre-ganador="{{partido.teams.away.name}}" data-odd="{{oddVisitante}}"
+                    data-id-partido="{{partido.fixture.id}}">{{oddVisitante}}</button>
+                
+                </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+
+    <!--Champions league-->
+    <div class="d-flex align-items-center justify-content-center mb-3">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Logo_UEFA_Champions_League.png"
+            alt="LaLiga Logo" class="me-2" style="width: 40px; height: 40px;">
+        <h2 class="mb-4" id="champions">Champions League</h2>
+    </div>
+
+
+
+    {%for partido, oddLocal, oddVisitante in partidosOdd%}
+    {%if partido.league.id == 2%}
+    <!-- Card Partido -->
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+        <div class="match-card">
+            <!-- Cabecera con el tiempo -->
+            <div class="header">
+                <span>{{partido.fixture.status.long}}</span>
+                {%if partido.fixture.status.elapsed is None %}
+                <span class="match-time">{{ partido.fixture.date }}</span>
+                {%else%}
+                <span class="match-time">{{partido.fixture.status.elapsed}}'</span>
+                {% endif %}
+            </div>
+
+            <!-- Equipo 1 -->
+            <div class="team-row">
+                <div class="team-info">
+                    <img src="{{partido.teams.home.logo}}" alt="West Ham" class="team-logo">
+                    <span class="team-name">{{partido.teams.home.name}}</span>
+                </div>
+                {%if partido.goals.home is None %}
+                <span class="score"></span>
+                {%else%}
+                <span class="score">{{partido.goals.home}}</span>
+                {% endif %}
+
+                
+                <button class="bet-button" type="button" data-bs-toggle="modal" data-bs-target="#modalDetalles"
+                    data-nombre-local="{{partido.teams.home.name}}"
+                    data-nombre-visitante="{{partido.teams.away.name}}"
+                    data-nombre-ganador="{{partido.teams.home.name}}" data-odd="{{oddLocal}}"
+                    data-id-partido="{{partido.fixture.id}}"> {{oddLocal}} </button>
+                    
+
+            </div>
+
+            <!-- Equipo 2 -->
+            <div class="team-row">
+                <div class="team-info">
+                    <img src="{{partido.teams.away.logo}}" alt="Leicester" class="team-logo">
+                    <span class="team-name">{{partido.teams.away.name}}</span>
+                </div>
+
+                {%if partido.goals.away is None %}
+                <span class="score"></span>
+                {%else%}
+                <span class="score">{{partido.goals.away}}</span>
+                {% endif %}
+              
+                <button class="bet-button" type="button" data-bs-toggle="modal" data-bs-target="#modalDetalles"
+                    data-nombre-local="{{partido.teams.home.name}}"
+                    data-nombre-visitante="{{partido.teams.away.name}}"
+                    data-nombre-ganador="{{partido.teams.away.name}}" data-odd="{{oddVisitante}}"
+                    data-id-partido="{{partido.fixture.id}}">{{oddVisitante}}</button>
+                
+                </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+
+
+    <!--Todo el mundo-->
+    <div class="d-flex align-items-center justify-content-center mb-3">
+        <img src="https://static.vecteezy.com/system/resources/thumbnails/027/126/257/small_2x/world-map-on-globe-silhouette-for-icon-symbol-app-website-pictogram-logo-type-art-illustration-or-graphic-design-element-format-png.png"
+            alt="LaLiga Logo" class="me-2" style="width: 40px; height: 40px;">
+        <h2 class="mb-4" id="mundo">Todo el mundo</h2>
+    </div>
+
+
+
+    {%for partido, oddLocal, oddVisitante in partidosOdd%}
+
+    <!-- Card Partido -->
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+        <div class="match-card">
+            <!-- Cabecera con el tiempo -->
+            <div class="header">
+                <span>{{partido.fixture.status.long}}</span>
+                {%if partido.fixture.status.elapsed is None %}
+                <span class="match-time">{{ partido.fixture.date }}</span>
+                {%else%}
+                <span class="match-time">{{partido.fixture.status.elapsed}}'</span>
+                {% endif %}
+            </div>
+
+            <!-- Equipo 1 -->
+            <div class="team-row">
+                <div class="team-info">
+                    <img src="{{partido.teams.home.logo}}" alt="West Ham" class="team-logo">
+                    <span class="team-name">{{partido.teams.home.name}}</span>
+                </div>
+                {%if partido.goals.home is None %}
+                <span class="score"></span>
+                {%else%}
+                <span class="score">{{partido.goals.home}}</span>
+                {% endif %}
+
+                
+                <button class="bet-button" type="button" data-bs-toggle="modal" data-bs-target="#modalDetalles"
+                    data-nombre-local="{{partido.teams.home.name}}"
+                    data-nombre-visitante="{{partido.teams.away.name}}"
+                    data-nombre-ganador="{{partido.teams.home.name}}" data-odd="{{oddLocal}}"
+                    data-id-partido="{{partido.fixture.id}}"> {{oddLocal}} </button>
+                    
+
+            </div>
+
+            <!-- Equipo 2 -->
+            <div class="team-row">
+                <div class="team-info">
+                    <img src="{{partido.teams.away.logo}}" alt="Leicester" class="team-logo">
+                    <span class="team-name">{{partido.teams.away.name}}</span>
+                </div>
+
+                {%if partido.goals.away is None %}
+                <span class="score"></span>
+                {%else%}
+                <span class="score">{{partido.goals.away}}</span>
+                {% endif %}
+              
+                <button class="bet-button" type="button" data-bs-toggle="modal" data-bs-target="#modalDetalles"
+                    data-nombre-local="{{partido.teams.home.name}}"
+                    data-nombre-visitante="{{partido.teams.away.name}}"
+                    data-nombre-ganador="{{partido.teams.away.name}}" data-odd="{{oddVisitante}}"
+                    data-id-partido="{{partido.fixture.id}}">{{oddVisitante}}</button>
+                
+                </div>
+        </div>
+    </div>
+    {% endfor %}
+        {% endif %}
+
+
+
+
+    </div>
+</div>
+<!--Ventana Modal-->
+<div class="modal fade" id="modalDetalles" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <form action="registrar-apuesta" method="POST">
+                {% csrf_token %}
+                <div class="modal-body text-center d-flex flex-column align-items-center justify-content-center">
+                    <p class="fs-4 mb-1">#<span id="modalIdPartido"></span></p>
+                    <input type="hidden" id="idPartido" name="idPartido" value="">
+                    <p class="fs-4 mb-1">Confirmar apuesta</p>
+                    <!-- Información de la apuesta centrada -->
+                    <div class="mb-3 d-flex flex-row fs-4 fw-bold">
+                        <p class="fs-3" id="nLocal"><span id="modalNombreLocal"></span></p>
+                        <p class=" fs-3 me-2 ms-2"> vs </p>
+                        <p class="fs-3 fw-bold" id="nVisitante"><span id="modalNombreVisitante"></span></p>
+                        <input type="hidden" id="nombreLocal" name="nombreLocal" value="">
+                        <input type="hidden" id="nombreVisitante" name="nombreVisitante" value="">
+                    </div>
+                    <div class=" mb-0 d-flex flex-row fs-4  ">
+                        <label class="form-label me-3">Ganador: </label>
+                        <p id="resultadoApostado"><span id="modalNombreGanador"></span></p>
+                        <input type="hidden" id="nombreGanador" name="nombreGanador" value="">
+                    </div>
+                    <div class="d-flex flex-row fs-4 ">
+                        <label class="form-label me-3">Odd: </label>
+                        <p id="cuota"><span id="modalOdd"></span></p>
+                        <input type="hidden" id="odd" name="odd" value="">
+                    </div>
+
+                    <!-- Input para ingresar valor a apostar -->
+                    <div class="d-flex flex-row mb-3 fs-4  ">
+                        <label class="form-label d-flex flex-row me-3 ">Apuesta($):</label>
+                        <input type="number" name="cantidadApostar" class="form-control text-center w-50"
+                            placeholder="Ejemplo: 100" min="1">
+                    </div>
+                </div>
+
+                <!-- Footer del modal con el botón centrado -->
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" class="bet-button">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("modalDetalles");
+
+        modal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget; // Elemento que activó el modal
+
+            var nombreLocal = button.getAttribute("data-nombre-local"); // Obtiene el nombre del local desde data-attribute
+            var nombreVisitante = button.getAttribute("data-nombre-visitante");
+            var nombreGanador = button.getAttribute("data-nombre-ganador");
+            var odd = button.getAttribute("data-odd");
+            var idPartido = button.getAttribute("data-id-partido");
+
+            document.getElementById("modalNombreLocal").textContent = nombreLocal; // Asigna el valor al modal
+            document.getElementById("modalNombreVisitante").textContent = nombreVisitante;
+            document.getElementById("modalNombreGanador").textContent = nombreGanador;
+            document.getElementById("modalOdd").textContent = odd;
+            document.getElementById("modalIdPartido").textContent = idPartido;
+
+
+
+            valueIdPartido = document.getElementById("idPartido").value = idPartido;
+            valueNombreLocal = document.getElementById("nombreLocal").value = nombreLocal;
+            valueNombreVisitante = document.getElementById("nombreVisitante").value = nombreVisitante;
+            valueNombreGanador = document.getElementById("nombreGanador").value = nombreGanador;
+            valueodd = document.getElementById("odd").value = odd;
+
+
+
+
+
+
+
+
+
+        });
+    });
+
+</script>
+{% endblock %}

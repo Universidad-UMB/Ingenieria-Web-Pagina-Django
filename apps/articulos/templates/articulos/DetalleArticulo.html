@@ -1,0 +1,11 @@
+{%extends 'layout/base.html'%}
+{%load static%}
+{%block title%}Articulos{%endblock%}
+{% block content %}
+<img src="{{articulo.foto}}" class="mx-auto d-block w-75 h-auto p-3 m" alt="">
+        <h1 class="mt-4">{{articulo.titulo}}</h1>
+        <p class="fs-4 mb-3">{{ articulo.fechaPublicacion|date:"d/m/Y" }}</p>
+        <hr>
+        <p>{{articulo.detalle}}</p>
+        <hr>
+{% endblock %}

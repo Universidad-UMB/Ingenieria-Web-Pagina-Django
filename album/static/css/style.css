@@ -1,0 +1,57 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    color: black;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #886DFF !important;
+    z-index: 1000;
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link {
+    color: white !important;
+}
+
+.navbar .nav-link:hover {
+    color: #f0f0f0 !important;
+}
+
+.navbar .dropdown-menu {
+    background-color: #886DFF;
+}
+
+.navbar .dropdown-item {
+    color: white;
+}
+
+.navbar .dropdown-item:hover {
+    background-color: #886DFF;
+}
+
+.btn-outline-light {
+    border-color: white;
+    color: white;
+}
+
+.btn-outline-light:hover {
+    background-color: white;
+    color: #886DFF;
+}
+
+
+
+footer {
+    background-color: #886DFF;
+    color: #ffffff;
+    text-align: center;
+    padding: 1rem;
+}
+
+

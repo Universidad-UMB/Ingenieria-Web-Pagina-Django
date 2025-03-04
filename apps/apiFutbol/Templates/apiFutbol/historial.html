@@ -1,0 +1,56 @@
+{%extends 'layout/base.html'%}
+{%load static%}
+{%block title%}Partidos{%endblock%}
+{% block content %}
+<h1>YourBet</h1>
+<p class="fs-3 mb-4">Historial de apuestas</p>
+
+
+<div class="content-wrapper">
+    {%for apuesta in listaApuestas %}
+    <div class="row justify-content-center gap-3 mb-5">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="match-card">
+            <!-- Cabecera con el tiempo -->
+            <div class="header">
+                <span>{{apuesta.estado}}</span>
+                <span class="match-time">{{apuesta.fecha}}</span>
+            </div>
+
+            <!-- Equipo 1 -->
+            <div class="team-row">
+                <div class="team-info">
+                    <span class="team-name">{{apuesta.nombreLocal}}</span>
+                </div>
+            </div>
+            <!-- Equipo 2 -->
+            <div class="team-row">
+                <div class="team-info">
+                    <span class="team-name">{{apuesta.nombreVisitante}}</span>
+                </div>
+               
+                
+            </div>
+            <!--info apuesta-->
+            <div class="team-row d-flex justify-content-center text-center">
+                <div class="details-bet">
+                    <div><span class="team-name">Ganador: <span class="fw-bold">{{apuesta.ganador}} </span></span></div>
+                    <div><span class="team-name">Odd: <span class="fw-bold">{{apuesta.odd}} </span></span></div>
+                    <div><span class="team-name">Apuesta($): <span class="fw-bold">{{apuesta.apuesta}} </span></span></div>
+                    <div><span class="team-name">Premio($): <span class="fw-bold">{{apuesta.premio}} </span></span></div>
+                    <div><span class="team-name">Finalizada: <span class="fw-bold">{{apuesta.finalizada}} </span></span></div>
+                    <div><span class="team-name">Id: <span class="fw-bold">{{apuesta.idFixture}} </span></span></div>
+                </div> 
+            </div>
+            
+        </div>
+    </div>
+    {%endfor%}
+    
+</div>
+</div>
+
+
+
+
+{% endblock %}
