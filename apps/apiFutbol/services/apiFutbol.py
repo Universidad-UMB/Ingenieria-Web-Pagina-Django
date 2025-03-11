@@ -5,7 +5,7 @@ from itertools import cycle
 dataGloabal=""
 
 def getPartidos():
-    url="https://v3.football.api-sports.io/fixtures?date=2025-03-04&timezone=America/Bogota"
+    url="https://v3.football.api-sports.io/fixtures?date=2025-03-11&timezone=America/Bogota"
     headers= {
         "x-rapidapi-key" : "6cdba232beafff9b6ba90f32cda449c6",
         "x-rapidapi-host": "v3.football.api-sports.io"
